@@ -31,7 +31,10 @@ interface CertificateItem {
 }
 
 export default function CertificatesPage() {
-  const { t, language } = useApp();
+  const appContext = useApp();
+  const t = appContext ? appContext.t : (en: string, id: string) => id;
+  const language = appContext ? appContext.language : 'ID';
+
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCert, setSelectedCert] = useState<CertificateItem | null>(null);
@@ -47,7 +50,6 @@ export default function CertificatesPage() {
   useEffect(() => {
     async function loadPublicData() {
       try {
-        // Ambil Header dari Supabase
         const { data: hData } = await supabase
           .from('certificates_header')
           .select('*')
@@ -62,7 +64,6 @@ export default function CertificatesPage() {
           });
         }
 
-        // Ambil Daftar Sertifikat dari Supabase
         const { data: cData } = await supabase
           .from('certificates')
           .select('*')
