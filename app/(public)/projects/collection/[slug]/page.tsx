@@ -318,7 +318,6 @@ export default function CollectionDetailPage() {
         </div>
       )}
 
-      {/* MODAL POPUP DETAIL SUB-ITEM (FULL CONTENT TANPA TERPOTONG) */}
       {activeSubDetail && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
           <div className="bg-[#0b0e17] border border-cyan-500/40 rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl my-auto">
