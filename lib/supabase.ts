@@ -1,8 +1,8 @@
-// Objek tiruan lengkap yang kompatibel dengan seluruh tipe data dan method admin dashboard
+// Objek tiruan universal yang menerima argumen dinamis untuk meloloskan semua tipe data dashboard admin
 export const supabase = {
   from: (table?: string) => ({
     select: (query?: string) => ({
-      eq: (column?: string, value?: any) => ({
+      eq: (...args: any[]) => ({
         single: async () => ({ data: null, error: null }),
         maybeSingle: async () => ({ data: null, error: null }),
         order: () => ({
@@ -21,12 +21,12 @@ export const supabase = {
       then: (resolve: any) => resolve({ data: null, error: null }),
     }),
     update: (payload?: any) => ({
-      eq: async () => ({ data: null, error: null }),
+      eq: (...args: any[]) => ({ data: null, error: null }),
       select: async () => ({ data: null, error: null }),
       then: (resolve: any) => resolve({ data: null, error: null }),
     }),
     delete: () => ({
-      eq: async () => ({ data: null, error: null }),
+      eq: (...args: any[]) => ({ data: null, error: null }),
     }),
   }),
   auth: {
