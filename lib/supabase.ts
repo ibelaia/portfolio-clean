@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Menggunakan fallback URL aman agar tidak error ERR_NAME_NOT_RESOLVED
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder-project.supabase.co';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+// Menggunakan URL string valid secara langsung agar lolos proses build Vercel
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://example.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'public-anon-key-placeholder';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
