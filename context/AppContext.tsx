@@ -68,8 +68,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 export const useApp = () => {
   const context = useContext(AppContext);
+  // Safe fallback agar lolos saat proses static prerendering / build di Vercel
   if (!context) {
-    throw new Error('useApp must be used within an AppProvider');
+    return {
+      language: 'ID' as Language,
+      setLanguage: () => {},
+      isDark: true,
+      setIsDark: () => {},
+      t: (en: string, id: string) => id,
+    };
   }
   return context;
 };
