@@ -1,10 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Menggunakan Environment Variables dengan fallback aman
-const supabaseUrl = 
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-
-const supabaseAnonKey = 
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+// Menggunakan fallback URL aman agar tidak error ERR_NAME_NOT_RESOLVED
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder-project.supabase.co';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
