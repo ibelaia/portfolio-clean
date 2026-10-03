@@ -1,16 +1,15 @@
-// Objek tiruan berbasis Promise murni agar lolos semua tipe data 'await' di Vercel
+// Objek tiruan universal yang mendukung seluruh rantai query admin dashboard secara aman
 export const supabase = {
   from: (table?: string) => ({
     select: (query?: string) => ({
       eq: (...args: any[]) => ({
         single: async () => ({ data: null, error: null }),
         maybeSingle: async () => ({ data: null, error: null }),
-        order: () => ({
-          range: async () => ({ data: [], error: null }),
-        }),
+        order: (...orderArgs: any[]) => Promise.resolve({ data: [], error: null }),
       }),
-      order: () => ({
+      order: (...orderArgs: any[]) => ({
         range: async () => ({ data: [], error: null }),
+        then: (resolve: any) => resolve({ data: [], error: null }),
       }),
       then: (resolve: any) => resolve({ data: [], error: null }),
     }),
