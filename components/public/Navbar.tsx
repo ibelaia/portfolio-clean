@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
-import { supabase } from '@/lib/supabase';
 import { 
   Home, 
   Info, 
@@ -27,31 +26,11 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ siteName: initialSiteName }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [siteName, setSiteName] = useState(initialSiteName || 'IbeLaia.Dev');
+  const [siteName] = useState(initialSiteName || 'IbeLaia.Dev');
   const pathname = usePathname();
   const { language, setLanguage, t } = useApp();
 
   const personalSiteUrl = process.env.NEXT_PUBLIC_PERSONAL_SITE_URL || 'http://localhost:8000';
-
-  useEffect(() => {
-    async function fetchSiteName() {
-      try {
-        const { data, error } = await supabase
-          .from('general_settings')
-          .select('site_name')
-          .eq('id', 'default')
-          .maybeSingle();
-
-        if (data && !error && data.site_name) {
-          setSiteName(data.site_name);
-        }
-      } catch (err) {
-        console.warn('Error loading navbar site name:', err);
-      }
-    }
-
-    fetchSiteName();
-  }, []);
 
   const navItems = [
     { name: t('Home', 'Beranda'), href: '/', icon: <Home size={16} /> },
