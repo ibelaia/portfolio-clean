@@ -1,25 +1,9 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import React, { useState } from 'react';
 
 export const TopBanner: React.FC = () => {
-  const [coverUrl, setCoverUrl] = useState<string>('/assets/banner.jpg');
-
-  useEffect(() => {
-    async function fetchCover() {
-      const { data } = await supabase
-        .from('home_settings')
-        .select('hero_cover_url')
-        .eq('id', 'default')
-        .single();
-
-      if (data?.hero_cover_url) {
-        setCoverUrl(data.hero_cover_url);
-      }
-    }
-    fetchCover();
-  }, []);
+  const [coverUrl] = useState<string>('/assets/banner.jpg');
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
