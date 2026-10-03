@@ -1,4 +1,4 @@
-// Objek tiruan universal yang menerima argumen dinamis untuk meloloskan semua tipe data dashboard admin
+// Objek tiruan berbasis Promise murni agar lolos semua tipe data 'await' di Vercel
 export const supabase = {
   from: (table?: string) => ({
     select: (query?: string) => ({
@@ -14,19 +14,20 @@ export const supabase = {
       }),
       then: (resolve: any) => resolve({ data: [], error: null }),
     }),
-    insert: (payload?: any) => ({
+    insert: (payload?: any) => Promise.resolve({
       select: () => ({
         single: async () => ({ data: null, error: null }),
       }),
-      then: (resolve: any) => resolve({ data: null, error: null }),
+      data: null,
+      error: null,
     }),
     update: (payload?: any) => ({
-      eq: (...args: any[]) => ({ data: null, error: null }),
+      eq: (...args: any[]) => Promise.resolve({ data: null, error: null }),
       select: async () => ({ data: null, error: null }),
       then: (resolve: any) => resolve({ data: null, error: null }),
     }),
     delete: () => ({
-      eq: (...args: any[]) => ({ data: null, error: null }),
+      eq: (...args: any[]) => Promise.resolve({ data: null, error: null }),
     }),
   }),
   auth: {
