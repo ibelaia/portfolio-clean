@@ -38,8 +38,8 @@
     color: var(--text-main);
     transition: background-color 0.25s ease, color 0.25s ease;
   }
-}
 
-.bg-accent { background-color: var(--accent); }
-.text-accent { color: var(--accent); }
-.border-accent { border-color: var(--accent); }
+  .bg-accent { background-color: var(--accent); }
+  .text-accent { color: var(--accent); }
+  .border-accent { border-color: var(--accent); }
+}
