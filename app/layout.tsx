@@ -1,5 +1,19 @@
-import { NextResponse } from 'next/server';
+import type { Metadata } from "next";
+import "./globals.css";
 
-export async function GET() {
-  return NextResponse.json({ message: 'Contact API is working' });
+export const metadata: Metadata = {
+  title: "Ibe Laia | Portfolio",
+  description: "Software Engineer & Full-Stack Developer",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
 }
