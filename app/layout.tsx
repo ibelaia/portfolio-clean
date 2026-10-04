@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/app/globals.css';
 import { supabase } from '@/lib/supabase';
-import { AppProvider } from '@/context/AppContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -17,6 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
+// Fungsi Dinamis untuk Menarik Metadata SEO dari Supabase
 export async function generateMetadata(): Promise<Metadata> {
   let seoData = {
     meta_title: 'Ibe Laia | Software Engineer & Full-Stack Developer',
@@ -98,11 +98,8 @@ export default async function RootLayout({
         suppressHydrationWarning 
         className={`min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] ${fontFamily} antialiased`}
       >
-        <AppProvider>
-          {children}
-        </AppProvider>
+        {children}
       </body>
     </html>
   );
 }
-```[cite: 27]
