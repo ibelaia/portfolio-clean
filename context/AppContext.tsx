@@ -3,14 +3,17 @@
 import React, { createContext, useContext, useState } from 'react';
 
 interface AppContextType {
-  // sesuaikan state yang dibutuhkan
+  t: (key: string) => string;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
+  // Fungsi sederhana untuk translasi teks
+  const t = (key: string) => key;
+
   return (
-    <AppContext.Provider value={{}}>
+    <AppContext.Provider value={{ t }}>
       {children}
     </AppContext.Provider>
   );
