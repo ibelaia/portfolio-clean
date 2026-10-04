@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import '@/app/globals.css';
 import { supabase } from '@/lib/supabase';
-import { AppProvider } from '@/context/AppContext'; // <-- Tambahkan import ini
+import { AppProvider } from '@/context/AppContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -98,7 +98,6 @@ export default async function RootLayout({
         suppressHydrationWarning 
         className={`min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] ${fontFamily} antialiased`}
       >
-        {/* Bungkus children dengan AppProvider */}
         <AppProvider>
           {children}
         </AppProvider>
@@ -106,3 +105,4 @@ export default async function RootLayout({
     </html>
   );
 }
+```[cite: 27]
