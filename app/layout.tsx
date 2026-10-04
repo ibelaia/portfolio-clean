@@ -1,31 +1,108 @@
 import React from 'react';
-import AboutPage from './(public)/about/page';
+import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono } from 'next/font/google';
+import '@/app/globals.css';
+import { supabase } from '@/lib/supabase';
+import { AppProvider } from '@/context/AppContext'; // <-- Tambahkan import ini
 
-export default function HomePage() {
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
+
+export async function generateMetadata(): Promise<Metadata> {
+  let seoData = {
+    meta_title: 'Ibe Laia | Software Engineer & Full-Stack Developer',
+    meta_description: 'Portfolio modern karya Ibe Laia - Software Engineering & Digital Solutions',
+    keywords: 'Ibe Laia, Software Engineer, Full-Stack Developer',
+    author_name: 'Ibe Laia',
+    og_image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&q=80',
+  };
+
+  try {
+    const { data } = await supabase
+      .from('seo_settings')
+      .select('*')
+      .eq('id', 'default')
+      .maybeSingle();
+
+    if (data) {
+      seoData = {
+        meta_title: data.meta_title || seoData.meta_title,
+        meta_description: data.meta_description || seoData.meta_description,
+        keywords: data.keywords || seoData.keywords,
+        author_name: data.author_name || seoData.author_name,
+        og_image: data.og_image || seoData.og_image,
+      };
+    }
+  } catch (err) {
+    console.warn('Failed to load SEO settings for metadata:', err);
+  }
+
+  return {
+    title: seoData.meta_title,
+    description: seoData.meta_description,
+    keywords: seoData.keywords,
+    authors: [{ name: seoData.author_name }],
+    openGraph: {
+      title: seoData.meta_title,
+      description: seoData.meta_description,
+      images: [{ url: seoData.og_image }],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seoData.meta_title,
+      description: seoData.meta_description,
+      images: [seoData.og_image],
+    },
+  };
+}
+
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  let appearance = null;
+  try {
+    const { data } = await supabase
+      .from('appearance_settings')
+      .select('*')
+      .eq('id', 'default')
+      .maybeSingle();
+    appearance = data;
+  } catch (err) {
+    console.warn('Failed to load appearance settings:', err);
+  }
+
+  const themeMode = appearance?.theme_mode === 'light' ? 'light' : 'dark';
+  const accentColor = appearance?.accent_color || 'cyan';
+  const fontFamily = appearance?.font_family === 'font-mono' ? 'font-mono' : 'font-sans';
+
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[var(--bg-primary)] text-[var(--text-main)]">
-      {/* Header / Top Navigation Sederhana (bisa dikembangkan nanti) */}
-      <header className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-        <div className="font-mono font-bold tracking-wider text-sm text-accent">
-          IBE LAIA // PORTFOLIO
-        </div>
-        <nav className="hidden sm:flex items-center gap-6 text-xs font-mono text-[var(--text-muted)]">
-          <a href="/about" className="hover:text-[var(--text-main)] transition-colors">About</a>
-          <a href="/projects" className="hover:text-[var(--text-main)] transition-colors">Projects</a>
-          <a href="/certificates" className="hover:text-[var(--text-main)] transition-colors">Certificates</a>
-          <a href="/contact" className="hover:text-[var(--text-main)] transition-colors">Contact</a>
-        </nav>
-      </header>
-
-      {/* Konten Utama (Langsung menampilkan Bento Grid About yang interaktif) */}
-      <div className="flex-grow flex items-center">
-        <AboutPage />
-      </div>
-
-      {/* Footer Sederhana */}
-      <footer className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 border-t border-[var(--card-border)] text-center text-xs text-[var(--text-muted)] font-mono">
-        &copy; {new Date().getFullYear()} Ibe Laia. Built with Next.js & Tailwind CSS.
-      </footer>
-    </div>
+    <html 
+      lang="en" 
+      suppressHydrationWarning 
+      className={`${inter.variable} ${jetbrainsMono.variable} ${themeMode} scroll-smooth`}
+      data-accent={accentColor}
+    >
+      <body 
+        suppressHydrationWarning 
+        className={`min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] ${fontFamily} antialiased`}
+      >
+        {/* Bungkus children dengan AppProvider */}
+        <AppProvider>
+          {children}
+        </AppProvider>
+      </body>
+    </html>
   );
 }
