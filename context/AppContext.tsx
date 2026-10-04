@@ -1,16 +1,16 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 
 interface AppContextType {
-  t: (key: string) => string;
+  t: (key: string, fallback?: string) => string;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  // Fungsi sederhana untuk translasi teks
-  const t = (key: string) => key;
+  // Fungsi t menerima key dan fallback, mengembalikan fallback atau key-nya
+  const t = (key: string, fallback?: string) => fallback || key;
 
   return (
     <AppContext.Provider value={{ t }}>
