@@ -1,5 +1,7 @@
-import { NextResponse } from 'next/server';
-
-export async function GET() {
-  return NextResponse.json({ message: 'Contact API is working' });
+export default function TestSupabasePage() {
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold">Test Supabase Page</h1>
+    </div>
+  );
 }
