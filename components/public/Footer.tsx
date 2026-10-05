@@ -10,17 +10,17 @@ import {
   ArrowUp
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
-import { supabase } from '@/lib/supabase';
 
 export const Footer: React.FC = () => {
   const { t } = useApp();
   const [showTopBtn, setShowTopBtn] = useState(false);
   
-  const [footerData, setFooterData] = useState({
+  // Menggunakan data statis mandiri untuk footer
+  const footerData = {
     site_name: 'IbeLaia.Dev',
     footer_description: 'Building digital solutions with code, creativity, and purpose.',
     copyright_text: '2026 IbeLaia.Dev. All rights reserved.'
-  });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,30 +28,6 @@ export const Footer: React.FC = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    async function fetchFooterSettings() {
-      try {
-        const { data, error } = await supabase
-          .from('general_settings')
-          .select('*')
-          .eq('id', 'default')
-          .maybeSingle();
-
-        if (data && !error) {
-          setFooterData({
-            site_name: data.site_name || 'IbeLaia.Dev',
-            footer_description: data.footer_description || 'Building digital solutions with code, creativity, and purpose.',
-            copyright_text: data.copyright_text || '2026 IbeLaia.Dev. All rights reserved.'
-          });
-        }
-      } catch (err) {
-        console.warn('Error loading footer settings:', err);
-      }
-    }
-
-    fetchFooterSettings();
   }, []);
 
   const scrollToTop = () => {
