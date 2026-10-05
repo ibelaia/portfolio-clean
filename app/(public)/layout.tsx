@@ -26,7 +26,9 @@ export default function PublicLayout({
           setSiteName(data.site_name);
         }
       } catch (err) {
-        console.warn('Error loading site name:', err);
+        // Fallback otomatis jika terjadi kendala jaringan atau DNS Supabase
+        console.warn('Menggunakan fallback site name karena kendala koneksi:', err);
+        setSiteName('IbeLaia.Dev');
       }
     }
 
@@ -59,4 +61,4 @@ export default function PublicLayout({
       </div>
     </AppProvider>
   );
-}
+} 
