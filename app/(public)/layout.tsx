@@ -1,39 +1,17 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AppProvider } from '@/context/AppContext';
 import Navbar from '@/components/public/Navbar';
 import Footer from '@/components/public/Footer';
-import { supabase } from '@/lib/supabase';
 
 export default function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [siteName, setSiteName] = useState('IbeLaia.Dev');
-
-  useEffect(() => {
-    async function fetchGeneralSettings() {
-      try {
-        const { data, error } = await supabase
-          .from('general_settings')
-          .select('site_name')
-          .eq('id', 'default')
-          .maybeSingle();
-
-        if (data && !error && data.site_name) {
-          setSiteName(data.site_name);
-        }
-      } catch (err) {
-        // Fallback otomatis jika terjadi kendala jaringan atau DNS Supabase
-        console.warn('Menggunakan fallback site name karena kendala koneksi:', err);
-        setSiteName('IbeLaia.Dev');
-      }
-    }
-
-    fetchGeneralSettings();
-  }, []);
+  // Menggunakan teks langsung tanpa memanggil Supabase yang bermasalah pada jaringan
+  const [siteName] = useState('IbeLaia.Dev');
 
   return (
     <AppProvider>
@@ -61,4 +39,4 @@ export default function PublicLayout({
       </div>
     </AppProvider>
   );
-} 
+}
